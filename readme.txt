@@ -5,7 +5,7 @@ AND ADDED MORE CONTROLS FOR NEW USERS. FEEL FREE TO DO WHAT YOU WANT WITH THIS.
 Credit goes to Alexandar Blade for creating the ScriptHook http://www.dev-c.com/gtav/scripthookv/
 
 
-							SCRIPT HOOK V SDK
+					SCRIPT HOOK V SDK
 
 v1.0.335.2
 
