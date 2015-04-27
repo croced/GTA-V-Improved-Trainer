@@ -1,5 +1,5 @@
-﻿Build started 26/04/2015 01:52:10.
-     1>Project "C:\Users\Daniel\Desktop\samples\NativeTrainer\NativeTrainer.vcxproj" on node 2 (Build target(s)).
+﻿Build started 27/04/2015 16:29:54.
+     1>Project "C:\Users\Daniel\Desktop\All\Modding\GTA V Improved Trainer\GTA-V-Improved-Trainer\samples\NativeTrainer\NativeTrainer.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D NativeTrainer_EXPORTS /D _WINDLL /D _MBCS /Gm- /EHsc /MT /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /Fo"tmp\Release\\" /Fd"tmp\Release\vc120.pdb" /Gd /TP /errorReport:prompt script.cpp
          script.cpp
@@ -8,9 +8,9 @@
          tmp\Release\script.obj
          Generating code
          Finished generating code
-         NativeTrainer.vcxproj -> C:\Users\Daniel\Desktop\samples\NativeTrainer\bin\Release\NativeTrainer.asi
-     1>Done Building Project "C:\Users\Daniel\Desktop\samples\NativeTrainer\NativeTrainer.vcxproj" (Build target(s)).
+         NativeTrainer.vcxproj -> C:\Users\Daniel\Desktop\All\Modding\GTA V Improved Trainer\GTA-V-Improved-Trainer\samples\NativeTrainer\bin\Release\NativeTrainer.asi
+     1>Done Building Project "C:\Users\Daniel\Desktop\All\Modding\GTA V Improved Trainer\GTA-V-Improved-Trainer\samples\NativeTrainer\NativeTrainer.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:04.11
+Time Elapsed 00:00:04.08

@@ -1,17 +1,17 @@
 /*
-	THIS FILE IS A PART OF GTA V SCRIPT HOOK SDK
-	http://dev-c.com
-	(C) Alexander Blade 2015
-	*/
+THIS FILE IS A PART OF GTA V SCRIPT HOOK SDK
+http://dev-c.com
+(C) Alexander Blade 2015
+*/
 
 /*
-	F4					activate
-	NUM2/8/4/6			navigate thru the menus and lists (numlock must be on)
-	NUM5 				select
-	NUM0/BACKSPACE/F4 	back
-	NUM9/3 				use vehicle boost when active
-	NUM+ 				use vehicle rockets when active
-	*/
+F4					activate
+NUM2/8/4/6			navigate thru the menus and lists (numlock must be on)
+NUM5 				select
+NUM0/BACKSPACE/F4 	back
+NUM9/3 				use vehicle boost when active
+NUM+ 				use vehicle rockets when active
+*/
 
 #include "script.h"
 
@@ -33,7 +33,7 @@ void draw_menu_line(std::string caption, float lineWidth, float lineHeight, floa
 	int text_col[4] = { 0, 0, 0, 255 },
 
 		//Defines the colour of the choices/rectangles
-		rect_col[4] = { 255, 255, 255, 205 };
+		rect_col[4] = { 255, 255, 255, 255 };
 
 	//Change text size and font
 	float text_scale = 0.35;
@@ -51,14 +51,13 @@ void draw_menu_line(std::string caption, float lineWidth, float lineHeight, floa
 		text_col[2] = 0;
 
 		//Change the colour of the rectangle.
-		rect_col[0] = 224;
-		rect_col[1] = 224;
-		rect_col[2] = 224;
+		rect_col[0] = 204;
+		rect_col[1] = 204;
+		rect_col[2] = 204;
 
 		//Rezise the text.
 		if (rescaleText) text_scale = 0.40;
 	}
-
 
 	//This is the box above all the options, where the text such as Script Trainer (A.B) is displayed in the black rect.
 	if (title)
@@ -79,7 +78,6 @@ void draw_menu_line(std::string caption, float lineWidth, float lineHeight, floa
 		if (rescaleText) text_scale = 0.50;
 		font = 1;
 	}
-
 	int screen_w, screen_h;
 	GRAPHICS::GET_SCREEN_RESOLUTION(&screen_w, &screen_h);
 
@@ -129,20 +127,6 @@ bool get_key_pressed(int nVirtKey)
 }
 
 DWORD trainerResetTime = 0;
-
-
-/*
-
-
-
-
-KEY BINDINGS HERE!
-
-
-
-
-*/
-
 
 bool trainer_switch_pressed()
 {
@@ -246,6 +230,7 @@ bool featureWeatherWind = false;
 
 bool featureMiscLockRadio = false;
 bool featureMiscHideHud = false;
+
 
 // player model control, switching on normal ped model when needed	
 
@@ -785,7 +770,8 @@ int teleportActiveLineIndex = 0;
 bool process_teleport_menu()
 {
 	const float lineWidth = 250.0;
-	const int lineCount = 17;
+	//Increase Teleport menu's Linecount so we can include North Yankton
+	const int lineCount = 18;
 
 	std::string caption = "TELEPORT";
 
@@ -811,7 +797,10 @@ bool process_teleport_menu()
 		{ "MILITARY BASE", -2047.4f, 3132.1f, 32.8f },
 		{ "MCKENZIE AIRFIELD", 2121.7f, 4796.3f, 41.1f },
 		{ "DESERT AIRFIELD", 1747.0f, 3273.7f, 41.1f },
-		{ "CHILLIAD", 425.4f, 5614.3f, 766.5f }
+		{ "CHILLIAD", 425.4f, 5614.3f, 766.5f },
+		{ "NORTH YANKTON", 3360.19f, -4849.67f, 111.8f }
+		//Add North Yankton teleport
+
 	};
 
 	DWORD waitTime = 150;
@@ -1801,6 +1790,163 @@ void process_weather_menu()
 
 int activeLineIndexMisc = 0;
 
+//Establish and draw North Yankton menu
+void process_ny_menu()
+{
+	const float lineWidth = 250.0;
+	const int lineCount = 1;
+
+	std::string caption = "NORTH YANKTON";
+
+	static struct {
+		LPCSTR		text;
+		bool		*pState;
+		bool		*pUpdated;
+	} lines[lineCount] = {
+		{ "LOAD", NULL, NULL },
+	};
+
+
+	DWORD waitTime = 150;
+	while (true)
+	{
+		// timed menu draw, used for pause after active line switch
+		DWORD maxTickCount = GetTickCount() + waitTime;
+		do
+		{
+			// draw menu
+			draw_menu_line(caption, lineWidth, 15.0, 18.0, 0.0, 5.0, false, true);
+			for (int i = 0; i < lineCount; i++)
+				if (i != activeLineIndexMisc)
+					draw_menu_line(line_as_str(lines[i].text, lines[i].pState),
+					lineWidth, 9.0, 60.0 + i * 36.0, 0.0, 9.0, false, false);
+			draw_menu_line(line_as_str(lines[activeLineIndexMisc].text, lines[activeLineIndexMisc].pState),
+				lineWidth + 1.0, 11.0, 56.0 + activeLineIndexMisc * 36.0, 0.0, 7.0, true, false);
+
+			update_features();
+			WAIT(0);
+		} while (GetTickCount() < maxTickCount);
+		waitTime = 0;
+
+		// process buttons
+		bool bSelect, bBack, bUp, bDown;
+		get_button_state(&bSelect, &bBack, &bUp, &bDown, NULL, NULL);
+		if (bSelect)
+		{
+			menu_beep();
+			switch (activeLineIndexMisc)
+			{
+				// Load North Yankton
+			case 0:
+				if (ENTITY::DOES_ENTITY_EXIST(PLAYER::PLAYER_PED_ID())
+					)
+					STREAMING::REQUEST_IPL("plg_01");
+				STREAMING::REQUEST_IPL("prologue01");
+				STREAMING::REQUEST_IPL("prologue01_lod");
+				STREAMING::REQUEST_IPL("prologue01c");
+				STREAMING::REQUEST_IPL("prologue01c_lod");
+				STREAMING::REQUEST_IPL("prologue01d");
+				STREAMING::REQUEST_IPL("prologue01d_lod");
+				STREAMING::REQUEST_IPL("prologue01e");
+				STREAMING::REQUEST_IPL("prologue01e_lod");
+				STREAMING::REQUEST_IPL("prologue01f");
+				STREAMING::REQUEST_IPL("prologue01f_lod");
+				STREAMING::REQUEST_IPL("prologue01g");
+				STREAMING::REQUEST_IPL("prologue01h");
+				STREAMING::REQUEST_IPL("prologue01h_lod");
+				STREAMING::REQUEST_IPL("prologue01i");
+				STREAMING::REQUEST_IPL("prologue01i_lod");
+				STREAMING::REQUEST_IPL("prologue01j");
+				STREAMING::REQUEST_IPL("prologue01j_lod");
+				STREAMING::REQUEST_IPL("prologue01k");
+				STREAMING::REQUEST_IPL("prologue01k_lod");
+				STREAMING::REQUEST_IPL("prologue01z");
+				STREAMING::REQUEST_IPL("prologue01z_lod");
+				STREAMING::REQUEST_IPL("plg_02");
+				STREAMING::REQUEST_IPL("prologue02");
+				STREAMING::REQUEST_IPL("prologue02_lod");
+				STREAMING::REQUEST_IPL("plg_03");
+				STREAMING::REQUEST_IPL("prologue03");
+				STREAMING::REQUEST_IPL("prologue03_lod");
+				STREAMING::REQUEST_IPL("prologue03b");
+				STREAMING::REQUEST_IPL("prologue03b_lod");
+				//the commented code disables the 'Prologue' grave and
+				//enables the 'Bury the Hatchet' grave
+				//STREAMING::REQUEST_IPL("prologue03_grv_cov");
+				//STREAMING::REQUEST_IPL("prologue03_grv_cov_lod");
+				STREAMING::REQUEST_IPL("prologue03_grv_dug");
+				STREAMING::REQUEST_IPL("prologue03_grv_dug_lod");
+				//STREAMING::REQUEST_IPL("prologue03_grv_fun");
+				STREAMING::REQUEST_IPL("prologue_grv_torch");
+				STREAMING::REQUEST_IPL("plg_04");
+				STREAMING::REQUEST_IPL("prologue04");
+				STREAMING::REQUEST_IPL("prologue04_lod");
+				STREAMING::REQUEST_IPL("prologue04b");
+				STREAMING::REQUEST_IPL("prologue04b_lod");
+				STREAMING::REQUEST_IPL("prologue04_cover");
+				STREAMING::REQUEST_IPL("des_protree_end");
+				STREAMING::REQUEST_IPL("des_protree_start");
+				STREAMING::REQUEST_IPL("des_protree_start_lod");
+				STREAMING::REQUEST_IPL("plg_05");
+				STREAMING::REQUEST_IPL("prologue05");
+				STREAMING::REQUEST_IPL("prologue05_lod");
+				STREAMING::REQUEST_IPL("prologue05b");
+				STREAMING::REQUEST_IPL("prologue05b_lod");
+				STREAMING::REQUEST_IPL("plg_06");
+				STREAMING::REQUEST_IPL("prologue06");
+				STREAMING::REQUEST_IPL("prologue06_lod");
+				STREAMING::REQUEST_IPL("prologue06b");
+				STREAMING::REQUEST_IPL("prologue06b_lod");
+				STREAMING::REQUEST_IPL("prologue06_int");
+				STREAMING::REQUEST_IPL("prologue06_int_lod");
+				STREAMING::REQUEST_IPL("prologue06_pannel");
+				STREAMING::REQUEST_IPL("prologue06_pannel_lod");
+				STREAMING::REQUEST_IPL("prologue_m2_door");
+				STREAMING::REQUEST_IPL("prologue_m2_door_lod");
+				STREAMING::REQUEST_IPL("plg_occl_00");
+				STREAMING::REQUEST_IPL("prologue_occl");
+				STREAMING::REQUEST_IPL("plg_rd");
+				STREAMING::REQUEST_IPL("prologuerd");
+				STREAMING::REQUEST_IPL("prologuerdb");
+				STREAMING::REQUEST_IPL("prologuerd_lod");
+				break;;
+
+
+				// switchable features
+			default:
+				if (lines[activeLineIndexMisc].pState)
+					*lines[activeLineIndexMisc].pState = !(*lines[activeLineIndexMisc].pState);
+				if (lines[activeLineIndexMisc].pUpdated)
+					*lines[activeLineIndexMisc].pUpdated = true;
+			}
+			waitTime = 200;
+		}
+		else
+			if (bBack || trainer_switch_pressed())
+			{
+				menu_beep();
+				break;
+			}
+			else
+				if (bUp)
+				{
+					menu_beep();
+					if (activeLineIndexMisc == 0)
+						activeLineIndexMisc = lineCount;
+					activeLineIndexMisc--;
+					waitTime = 150;
+				}
+				else
+					if (bDown)
+					{
+						menu_beep();
+						activeLineIndexMisc++;
+						if (activeLineIndexMisc == lineCount)
+							activeLineIndexMisc = 0;
+						waitTime = 150;
+					}
+	}
+}
 void process_misc_menu()
 {
 	const float lineWidth = 250.0;
@@ -1894,10 +2040,10 @@ int activeLineIndexMain = 0;
 void process_main_menu()
 {
 	const float lineWidth = 250.0;
-	const int lineCount = 7;
+	const int lineCount = 8;
 
 	std::string caption = "NATIVE  TRAINER  (AB)";
-
+	//Draw submenus
 	static LPCSTR lineCaption[lineCount] = {
 		"PLAYER",
 		"WEAPON",
@@ -1905,7 +2051,8 @@ void process_main_menu()
 		"WORLD",
 		"TIME",
 		"WEATHER",
-		"MISC"
+		"MISC",
+		"NORTH YANKTON"
 	};
 
 	DWORD waitTime = 150;
@@ -1955,6 +2102,10 @@ void process_main_menu()
 				break;
 			case 6:
 				process_misc_menu();
+				break;
+				//Make North Yankton menu enterable
+			case 7:
+				process_ny_menu();
 				break;
 			}
 			waitTime = 200;

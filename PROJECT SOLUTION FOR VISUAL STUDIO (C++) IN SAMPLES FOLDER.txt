@@ -1,0 +1,5 @@
+Project solution for Visual Studio (C++) is in the "Samples" folder. Just open the solution, and you are ready to
+go. 
+
+Please note, the only changed file in this from the Native Trainer is "scripts.cpp" - it should be the only
+class you need.
