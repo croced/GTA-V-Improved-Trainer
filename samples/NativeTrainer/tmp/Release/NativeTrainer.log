@@ -1,4 +1,4 @@
-﻿Build started 29/04/2015 16:37:40.
+﻿Build started 29/04/2015 16:47:43.
      1>Project "C:\Users\Daniel\Desktop\All\Modding\GTA V Improved Trainer\GTA-V-Improved-Trainer\samples\NativeTrainer\NativeTrainer.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D NativeTrainer_EXPORTS /D _WINDLL /D _MBCS /Gm- /EHsc /MT /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /Fo"tmp\Release\\" /Fd"tmp\Release\vc120.pdb" /Gd /TP /errorReport:prompt script.cpp
@@ -13,4 +13,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.90
+Time Elapsed 00:00:03.58

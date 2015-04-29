@@ -230,6 +230,8 @@ bool featureWeatherWind = false;
 bool featureMiscLockRadio = false;
 bool featureMiscHideHud = false;
 
+bool featureMobileRadio = false;
+
 
 // player model control, switching on normal ped model when needed	
 
@@ -1949,17 +1951,18 @@ void process_ny_menu()
 void process_misc_menu()
 {
 	const float lineWidth = 250.0;
-	const int lineCount = 2;
+	const int lineCount = 3;
 
 	std::string caption = "MISC  OPTIONS";
 
 	static struct {
-		LPCSTR		text;
-		bool		*pState;
-		bool		*pUpdated;
+		LPCSTR      text;
+		bool        *pState;
+		bool        *pUpdated;
 	} lines[lineCount] = {
 		{ "NEXT RADIO TRACK", NULL, NULL },
-		{ "HIDE HUD", &featureMiscHideHud, NULL }
+		{ "HIDE HUD", &featureMiscHideHud, NULL },
+		{ "ENABLE MOBILE RADIO", &featureMobileRadio, NULL }
 	};
 
 
@@ -1994,9 +1997,12 @@ void process_misc_menu()
 			{
 				// next radio track
 			case 0:
-				if (ENTITY::DOES_ENTITY_EXIST(PLAYER::PLAYER_PED_ID()) &&
-					PED::IS_PED_IN_ANY_VEHICLE(PLAYER::PLAYER_PED_ID(), 0))
+				if (ENTITY::DOES_ENTITY_EXIST(PLAYER::PLAYER_PED_ID()))
 					AUDIO::SKIP_RADIO_FORWARD();
+				break;
+			case 2:
+				featureMobileRadio = !featureMobileRadio;
+				AUDIO::SET_MOBILE_RADIO_ENABLED_DURING_GAMEPLAY(featureMobileRadio);
 				break;
 				// switchable features
 			default:
