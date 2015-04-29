@@ -28,12 +28,11 @@ void draw_rect(float A_0, float A_1, float A_2, float A_3, int A_4, int A_5, int
 void draw_menu_line(std::string caption, float lineWidth, float lineHeight, float lineTop, float lineLeft, float textLeft, bool active, bool title, bool rescaleText = true)
 {
 	// default values
-
 	//Defines the colour of the text (global value for all text on the trainer).
 	int text_col[4] = { 0, 0, 0, 255 },
 
 		//Defines the colour of the choices/rectangles
-		rect_col[4] = { 255, 255, 255, 255 };
+		rect_col[4] = { 255, 255, 255, 255};
 
 	//Change text size and font
 	float text_scale = 0.35;
@@ -66,7 +65,7 @@ void draw_menu_line(std::string caption, float lineWidth, float lineHeight, floa
 		//Rectangle colour.
 		rect_col[0] = 29;
 		rect_col[1] = 157;
-		rect_col[2] = 230;
+		rect_col[2] = 228;
 
 		//Text colour.
 		text_col[0] = 255;
